@@ -17,7 +17,7 @@ class TodoRepoTest {
         // Given
         Todo todo = new Todo(
             "kaffee kochen",
-            "OPEN"
+            Status.OPEN
         );
         List<Todo> expected = List.of(todo);
 
@@ -48,7 +48,7 @@ class TodoRepoTest {
         TodoRepo todoRepo2 = new TodoRepo();
         Todo todo = new Todo(
             "kaffee kochen",
-            "OPEN"
+            Status.OPEN
         );
         todoRepo2.addTodo(todo);
         String id = todoRepo2.listTodos().get(0).getId();
@@ -67,11 +67,11 @@ class TodoRepoTest {
         TodoRepo todoRepo3 = new TodoRepo();
         todoRepo3.addTodo(new Todo(
             "kaffee kochen",
-            "OPEN"
+            Status.OPEN
         ));
         todoRepo3.addTodo(new Todo(
             "kaffee kochen",
-            "OPEN"
+            Status.OPEN
         ));
         String idToRemove = todoRepo3.listTodos().get(0).getId();
         String idToRemain = todoRepo3.listTodos().get(1).getId();
@@ -89,7 +89,7 @@ class TodoRepoTest {
         //GIVEN
         Todo todo = new Todo(
             "kaffee kochen",
-            "OPEN"
+            Status.OPEN
         );
         String id = todo.getId();
         List<Todo> expected = List.of(todo);

@@ -51,7 +51,7 @@ class TodoControllerTest {
     void expectListOfTodos_whenGetList() throws Exception {
 
         //GIVEN
-        todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
+        todoRepo.addTodo(new Todo("kaffee kochen", Status.OPEN));
 
         String expected = """
             [
@@ -77,7 +77,7 @@ class TodoControllerTest {
     void expectTodoById() throws Exception {
 
         //GIVEN
-        todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
+        todoRepo.addTodo(new Todo("kaffee kochen", Status.OPEN));
         String id = todoRepo.listTodos().get(0).getId();
 
         String expected = """
@@ -102,8 +102,8 @@ class TodoControllerTest {
     void expectList_whenDeleteToDo() throws Exception {
 
         //GIVEN
-        todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
-        todoRepo.addTodo(new Todo("kaffee trinken", "DONE"));
+        todoRepo.addTodo(new Todo("kaffee kochen", Status.OPEN));
+        todoRepo.addTodo(new Todo("kaffee trinken", Status.DONE));
         List<Todo> todos = todoRepo.listTodos();
         String idToRemove = todos.get(0).getId();
         String idToRemain = todos.get(1).getId();
@@ -131,7 +131,7 @@ class TodoControllerTest {
     @DirtiesContext
     void expectUpdatedList_whenUpdatingTodo() throws Exception {
         //Given
-        Todo todo = new Todo("kaffee trinken", "OPEN");
+        Todo todo = new Todo("kaffee trinken", Status.OPEN);
         todoRepo.addTodo(todo);
         String expected = """
                [
