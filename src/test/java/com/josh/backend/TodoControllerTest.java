@@ -10,6 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class TodoControllerTest {
@@ -27,22 +29,23 @@ class TodoControllerTest {
 
         // When
         mockMvc.perform(
-            MockMvcRequestBuilders.post("/api/todo")
-                .contentType("application/json")
-                .content("""
-                    {
-                        "description": "kaffee kochen",
-                        "status": "OPEN"
-                    }
-                    """)
-        )
+                MockMvcRequestBuilders.post("/api/todo")
+                    .contentType("application/json")
+                    .content("""
+                        {
+                            "description": "kaffee kochen",
+                            "status": "OPEN"
+                        }
+                        """)
+            )
 
-        // Then
+            // Then
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("kaffee kochen"))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value("OPEN"));
     }
-        // ༼ノ◕ヮ◕ ༽ノ︵┻━┻
+
+    // ༼ノ◕ヮ◕ ༽ノ︵┻━┻
     @Test
     @DirtiesContext
     void expectListOfTodos_whenGetList() throws Exception {
@@ -51,19 +54,19 @@ class TodoControllerTest {
         todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
 
         String expected = """
-                            [
-                                    {
-                                          "description": "kaffee kochen",
-                                          "status": "OPEN"
-                                    }
-                            ]
-                            """;
+            [
+                    {
+                          "description": "kaffee kochen",
+                          "status": "OPEN"
+                    }
+            ]
+            """;
 
         //WHEN
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/api/todo"))
+                MockMvcRequestBuilders.get("/api/todo"))
 
-        //THEN
+            //THEN
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().json(expected));
     }
@@ -89,6 +92,63 @@ class TodoControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/todo/{id}", "%s".formatted(id)))
 
+            //THEN
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(expected));
+    }
+
+    @Test
+    @DirtiesContext
+    void expectList_whenDeleteToDo() throws Exception {
+
+        //GIVEN
+        todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
+        todoRepo.addTodo(new Todo("kaffee trinken", "DONE"));
+        List<Todo> todos = todoRepo.listTodos();
+        String idToRemove = todos.get(0).getId();
+        String idToRemain = todos.get(1).getId();
+
+        String expected = """
+                {
+                      "id": "%s",
+                      "description": "kaffee trinken",
+                      "status": "DONE"
+                }
+            """.formatted(idToRemain);
+
+        //WHEN
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/api/todo/%s".formatted(idToRemove)))
+
+            //THEN
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(expected));
+    }
+
+    @Test
+    @DirtiesContext
+    void expectUpdatedList_whenUpdatingTodo() throws Exception {
+        //Given
+        Todo todo = new Todo("kaffee trinken", "OPEN");
+        todoRepo.addTodo(todo);
+        String expected = """
+               {
+                  "id": "%s",
+                  "description": "kaffee trinken",
+                  "status": "IN_PROGRESS"
+               }
+            """.formatted(todo.getId());
+        //WHEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/todo/%s".formatted(todo.getId()))
+                .contentType("application/json")
+                .content("""
+                        {
+                              "description": "kaffee trinken",
+                              "status": "IN_PROGRESS"
+                        }
+                    """)
+        )
         //THEN
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().json(expected));
