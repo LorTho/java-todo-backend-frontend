@@ -42,16 +42,24 @@ class TodoRepoTest {
         Assertions.assertEquals(expected, actual);
 
     }
-/*    @Test
+    @Test
     void Test_todoById(){
-
         //Given
-        //Todo expected = new Todo("kaffee kochen", "OPEN");
+        TodoRepo todoRepo2 = new TodoRepo();
+        Todo todo = new Todo(
+            "kaffee kochen",
+            "OPEN"
+        );
+        todoRepo2.addTodo(todo);
+        String id = todoRepo2.listTodos().get(0).getId();
+        Todo expected = todoRepo2.listTodos().get(0);
+
         //When
-        //Todo actual = todoRepo.getTodo(id);
+        Todo actual = todoRepo2.getTodoById(id);
+
         //Then
         Assertions.assertEquals(expected, actual);
 
-    }*/
+    }
 
 }

@@ -29,8 +29,8 @@ public class TodoController {
     }
 
     @GetMapping("/todo/{id}")
-    public Todo getTodo(@PathVariable String id){
-        return this.todoService.getTodo(id);
+    public Todo getTodoById(@PathVariable String id){
+        return this.todoService.getTodoById(id);
     }
 
 }

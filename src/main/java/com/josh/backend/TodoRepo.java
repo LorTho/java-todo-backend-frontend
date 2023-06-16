@@ -24,7 +24,7 @@ public class TodoRepo {
         return this.todos;
     }
 
-    public Todo getTodo(String id) {
+    public Todo getTodoById(String id) {
         Optional<Todo> optional = this.todos.stream()
                 .filter(todo -> todo.getId().equals(id))
                 .findFirst();

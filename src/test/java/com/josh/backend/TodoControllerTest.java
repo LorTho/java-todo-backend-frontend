@@ -75,19 +75,19 @@ class TodoControllerTest {
 
         //GIVEN
         todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
+        String id = todoRepo.listTodos().get(0).getId();
 
         String expected = """
-                            [
-                                    {
-                                          "description": "kaffee kochen",
-                                          "status": "OPEN"
-                                    }
-                            ]
-                            """;
+                {
+                      "id": "%s",
+                      "description": "kaffee kochen",
+                      "status": "OPEN"
+                }
+            """.formatted(id);
 
         //WHEN
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/todo/{id}", "Hier Id einfügen"))
+                MockMvcRequestBuilders.get("/api/todo/{id}", "%s".formatted(id)))
 
         //THEN
             .andExpect(MockMvcResultMatchers.status().isOk())

@@ -20,7 +20,7 @@ public class TodoService {
         return todoRepo.listTodos();
     }
 
-    public Todo getTodo(String id) {
-        return todoRepo.getTodo(id);
+    public Todo getTodoById(String id) {
+        return todoRepo.getTodoById(id);
     }
 }
