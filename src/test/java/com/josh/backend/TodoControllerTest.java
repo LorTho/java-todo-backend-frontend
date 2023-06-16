@@ -109,11 +109,13 @@ class TodoControllerTest {
         String idToRemain = todos.get(1).getId();
 
         String expected = """
-                {
-                      "id": "%s",
-                      "description": "kaffee trinken",
-                      "status": "DONE"
-                }
+                [
+                    {
+                          "id": "%s",
+                          "description": "kaffee trinken",
+                          "status": "DONE"
+                    }
+                ]
             """.formatted(idToRemain);
 
         //WHEN
@@ -132,11 +134,13 @@ class TodoControllerTest {
         Todo todo = new Todo("kaffee trinken", "OPEN");
         todoRepo.addTodo(todo);
         String expected = """
-               {
-                  "id": "%s",
-                  "description": "kaffee trinken",
-                  "status": "IN_PROGRESS"
-               }
+               [
+                   {
+                      "id": "%s",
+                      "description": "kaffee trinken",
+                      "status": "IN_PROGRESS"
+                   }
+               ]
             """.formatted(todo.getId());
         //WHEN
         mockMvc.perform(

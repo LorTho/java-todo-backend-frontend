@@ -29,7 +29,20 @@ public class TodoRepo {
                 .filter(todo -> todo.getId().equals(id))
                 .findFirst();
         return optional.orElse(null);
+    }
 
+    public List<Todo> updateTodoById(String id, Todo todo) {
+        todo.setId(id);
+        for (int i = 0; i < this.todos.size(); i++) {
+            if (this.todos.get(i).getId().equals(id)) {
+                this.todos.set(i, todo);
+            }
+        }
+        return this.todos;
+    }
 
+    public List<Todo> deleteTodoById(String id) {
+        this.todos.removeIf(todo -> todo.getId().equals(id));
+        return this.todos;
     }
 }

@@ -65,21 +65,41 @@ class TodoRepoTest {
     void Test_deleteById(){
         //Given
         TodoRepo todoRepo3 = new TodoRepo();
-        Todo todo = new Todo(
+        todoRepo3.addTodo(new Todo(
             "kaffee kochen",
             "OPEN"
-        );
-        todoRepo3.addTodo(todo);
-        todoRepo3.addTodo(todo);
+        ));
+        todoRepo3.addTodo(new Todo(
+            "kaffee kochen",
+            "OPEN"
+        ));
         String idToRemove = todoRepo3.listTodos().get(0).getId();
         String idToRemain = todoRepo3.listTodos().get(1).getId();
         List<Todo> expected = List.of(todoRepo3.getTodoById(idToRemain));
 
         //When
-        Todo actual = todoRepo3.getTodoById(idToRemove);
+        List<Todo> actual = todoRepo3.deleteTodoById(idToRemove);
 
         //Then
         Assertions.assertEquals(expected, actual);
     }
 
+    @Test
+    void Test_updateById(){
+        //GIVEN
+        Todo todo = new Todo(
+            "kaffee kochen",
+            "OPEN"
+        );
+        String id = todo.getId();
+        List<Todo> expected = List.of(todo);
+
+        //WHEN
+        when(todoRepo.updateTodoById(id, todo)).thenReturn(expected);
+        List<Todo> actual = todoRepo.updateTodoById(id, todo);
+
+        // Then
+        Assertions.assertEquals(expected, actual);
+        verify(todoRepo).updateTodoById(id, todo);
+    }
 }

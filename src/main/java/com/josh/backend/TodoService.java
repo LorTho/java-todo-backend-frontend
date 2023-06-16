@@ -23,4 +23,12 @@ public class TodoService {
     public Todo getTodoById(String id) {
         return todoRepo.getTodoById(id);
     }
+
+    public List<Todo> updateTodoById(String id, Todo todo) {
+        return todoRepo.updateTodoById(id, todo);
+    }
+
+    public List<Todo> deleteTodoById(String id) {
+        return todoRepo.deleteTodoById(id);
+    }
 }

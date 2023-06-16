@@ -33,4 +33,16 @@ public class TodoController {
         return this.todoService.getTodoById(id);
     }
 
+    @PutMapping("/todo/{id}")
+    public List<Todo> updateTodoById(@PathVariable String id, @RequestBody Todo todo){
+        return this.todoService.updateTodoById(id, todo);
+    }
+
+    @DeleteMapping("/todo/{id}")
+    public List<Todo> deleteToDoById(@PathVariable String id) {
+        return this.todoService.deleteTodoById(id);
+    }
+
+
+
 }
