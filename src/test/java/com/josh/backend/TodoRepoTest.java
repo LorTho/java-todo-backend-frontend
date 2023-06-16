@@ -22,7 +22,10 @@ class TodoRepoTest {
         );
 
         // When
-        List<Todo> actual = todoRepo.addTodo();
+        List<Todo> actual = todoRepo.addTodo(new Todo(
+            "kaffee kochen",
+            "OPEN"
+        ));
 
         // Then
         Assertions.assertEquals(expected, actual);

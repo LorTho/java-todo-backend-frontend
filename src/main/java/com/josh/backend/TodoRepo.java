@@ -1,6 +1,5 @@
 package com.josh.backend;
 
-import lombok.Data;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,5 +12,10 @@ public class TodoRepo {
 
     public TodoRepo() {
         this.todos = new ArrayList<>();
+    }
+
+    public List<Todo> addTodo(Todo todo) {
+        todos.add(todo);
+        return todos;
     }
 }

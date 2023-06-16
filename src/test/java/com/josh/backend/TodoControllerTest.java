@@ -22,24 +22,22 @@ class TodoControllerTest {
     @Test
     void expectUpdatedList_WhenAddingATodo() throws Exception {
         // Given
-        String expected = """
-            [
-                {
-                    description: "kaffee kochen",
-                    status: "OPEN"
-                }
-            ]
-            """;
 
         // When
         mockMvc.perform(
             MockMvcRequestBuilders.post("/api/todo")
+                .contentType("application/json")
+                .content("""
+                    {
+                        "description": "kaffee kochen",
+                        "status": "OPEN"
+                    }
+                    """)
         )
 
         // Then
-            .andExpect(
-                MockMvcResultMatchers.content().json(expected)
-            );
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("kaffee kochen"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value("OPEN"));
     }
-
 }
