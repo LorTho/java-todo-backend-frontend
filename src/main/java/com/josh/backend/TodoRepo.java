@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TodoRepo {
@@ -17,5 +18,18 @@ public class TodoRepo {
     public List<Todo> addTodo(Todo todo) {
         todos.add(todo);
         return todos;
+    }
+
+    public List<Todo> listTodos() {
+        return this.todos;
+    }
+
+    public Todo getTodo(String id) {
+        Optional<Todo> optional = this.todos.stream()
+                .filter(todo -> todo.getId().equals(id))
+                .findFirst();
+        return optional.orElse(null);
+
+
     }
 }

@@ -15,4 +15,12 @@ public class TodoService {
     public List<Todo> addTodo(Todo todo) {
         return todoRepo.addTodo(todo);
     }
+
+    public List<Todo> listTodos() {
+        return todoRepo.listTodos();
+    }
+
+    public Todo getTodo(String id) {
+        return todoRepo.getTodo(id);
+    }
 }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -20,6 +21,7 @@ class TodoControllerTest {
     TodoRepo todoRepo;
 
     @Test
+    @DirtiesContext
     void expectUpdatedList_WhenAddingATodo() throws Exception {
         // Given
 
@@ -39,5 +41,56 @@ class TodoControllerTest {
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("kaffee kochen"))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].status").value("OPEN"));
+    }
+        // ༼ノ◕ヮ◕ ༽ノ︵┻━┻
+    @Test
+    @DirtiesContext
+    void expectListOfTodos_whenGetList() throws Exception {
+
+        //GIVEN
+        todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
+
+        String expected = """
+                            [
+                                    {
+                                          "description": "kaffee kochen",
+                                          "status": "OPEN"
+                                    }
+                            ]
+                            """;
+
+        //WHEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/api/todo"))
+
+        //THEN
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(expected));
+    }
+
+    // 乁༼ ☯‿☯✿༽ㄏ
+    @Test
+    @DirtiesContext
+    void expectTodoById() throws Exception {
+
+        //GIVEN
+        todoRepo.addTodo(new Todo("kaffee kochen", "OPEN"));
+
+        String expected = """
+                            [
+                                    {
+                                          "description": "kaffee kochen",
+                                          "status": "OPEN"
+                                    }
+                            ]
+                            """;
+
+        //WHEN
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/todo/{id}", "Hier Id einfügen"))
+
+        //THEN
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(expected));
     }
 }

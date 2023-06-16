@@ -23,4 +23,14 @@ public class TodoController {
         return todoService.addTodo(todo);
     }
 
+    @GetMapping("/todo")
+    public List<Todo> listTodos() {
+        return todoService.listTodos();
+    }
+
+    @GetMapping("/todo/{id}")
+    public Todo getTodo(@PathVariable String id){
+        return this.todoService.getTodo(id);
+    }
+
 }
